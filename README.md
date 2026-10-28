@@ -1,42 +1,27 @@
 # Hospital Readmission SQL Analysis
 
-This project analyzes the UCI Diabetes 130-US Hospitals dataset to understand what factors influence 30-day hospital readmission rates for diabetes patients.
+Which patients come back to hospital within 30 days? This project analyses the UCI Diabetes 130-US Hospitals dataset (101,766 patient records) in MySQL to find what drives 30-day readmission.
 
-I used MySQL to clean the data, create summary tables, build views, and run analytical queries. The main goal was to explore how hospital stay duration and medication levels affect readmission.
+## Key findings
+- Patients aged 20-30 had the highest 30-day readmission rate: 14.24%
+- High medication level with a long hospital stay: 13.96% readmission, vs 7.21% for low medication level with a short stay
 
-## What I Did
+## What I did
+- Created 3 lookup tables (admission type, discharge disposition, admission source) and joined them to the patient data with LEFT JOINs into one master table
+- Used a CTE to calculate 30-day readmission rates by age group
+- Used SUM() OVER for percentage distributions and RANK() OVER (PARTITION BY age) to rank patients by medication count within each age group
+- Used CASE statements to group patients by medication level (Low: 5 or fewer, Medium: 6 to 15, High: over 15) and length of stay (Short: up to 3 days, Medium: 4 to 7 days, Long: over 7 days)
+- Built a summary table and a view (vw_diabetes_dashboard) for the final analysis
+- Also looked at readmission by insulin use, length of stay, number of medicines and admission type
 
-- Created a cleaned summary table from raw patient data
-- Used CASE statements to classify medication usage as "Low" or "High"
-- Built a dashboard view (`vw_diabetes_dashboard`) for easier analysis
-- Applied RANK() window function to compare patients by age and medicine usage
-- Wrote final aggregation queries to calculate readmission rates
+## Files
+- diabetes_project_final.sql: all queries, from table creation to final results
+- Screenshots: step-by-step outputs (04_final_query_result.png shows the final result)
 
-## Files in this Repository
+## Data
+UCI Diabetes 130-US Hospitals dataset (public).
 
-- `diabetes_project_final.sql` → All the SQL queries (from table creation to final analysis)
-- Screenshots → Step-by-step execution results and outputs
+## Tools
+MySQL, MySQL Workbench
 
-## Important Note
-You might see some yellow warning triangles while running the script (related to `DROP TABLE IF EXISTS` and `DROP VIEW IF EXISTS`). These are completely normal — they just mean the objects didn’t exist yet.
-
-## Final Insight
-The analysis shows that readmission rates are clearly influenced by both the length of hospital stay and the number of medications prescribed.
-
-Feel free to check the SQL file and screenshots!
-
----
-
-### Why this version is better:
-- Sounds more like a student’s voice
-- Uses “I” which feels personal
-- Slightly less perfect structure (more natural flow)
-- Still professional but not robotic
-
----
-
-Would you like me to:
-1. **Make it even more casual** (more student-like), or
-2. **Keep it professional but still human-sounding**?
-
-Just tell me your preference and I’ll adjust it immediately.
+Note: you may see yellow warnings when running the script. They come from DROP TABLE IF EXISTS and DROP VIEW IF EXISTS and are normal.
